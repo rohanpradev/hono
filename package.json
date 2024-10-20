@@ -1,0 +1,35 @@
+{
+  "name": "restaurants-api",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "lint": "eslint .",
+    "test": "bun run test",
+    "lint:fix": "npm run lint --fix",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:seed": "cross-env DB_SEEDING=true bun run src/db/seed.ts",
+    "db:view": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.16.4",
+    "@neondatabase/serverless": "^0.10.1",
+    "@scalar/hono-api-reference": "^0.5.155",
+    "drizzle-orm": "^0.35.1",
+    "drizzle-zod": "^0.5.1",
+    "hono": "^4.6.5",
+    "hono-pino": "^0.3.0",
+    "pino-pretty": "^11.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.8.0",
+    "@types/bun": "latest",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.26.2",
+    "eslint-plugin-format": "^0.1.2"
+  }
+}
