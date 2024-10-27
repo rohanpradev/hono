@@ -25,9 +25,21 @@ export const RestaurantService = {
       },
     });
   },
+  getRestaurantById(id: number) {
+    return db.query.restaurant.findFirst({
+      where(fields, operators) {
+        return operators.eq(fields.id, id);
+      },
+      with: {
+        city: {
+          columns: { name: true },
+          with: { state: { columns: { name: true, code: true } } },
+        },
+      },
+    });
+  },
 };
 
-export const GetRestaurantWithCityAndState = createSelectSchema(restaurant).merge(
-  createSelectSchema(city).omit({ id: true, stateId: true })
-    .merge(createSelectSchema(state).omit({ id: true })),
-);
+export const GetRestaurantWithCityAndState = createSelectSchema(restaurant)
+  .and(createSelectSchema(city).omit({ id: true, stateId: true }))
+  .and(createSelectSchema(state).omit({ id: true }));
