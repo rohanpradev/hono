@@ -14,20 +14,20 @@ import category from "@/db/schema/category";
 import restaurant from "@/db/schema/restaurant";
 
 const menuItem = pgTable("menu_item", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
+  id: serial().primaryKey(),
+  name: varchar({ length: 255 }).notNull(),
   restaurantId: integer("restaurant_id")
     .notNull()
     .references(() => restaurant.id),
-  categoryId: integer("category_id")
+  categoryId: integer()
     .notNull()
     .references(() => category.id),
-  description: text("description").notNull(),
-  ingredients: text("ingredients").notNull(),
-  price: numeric("price", { precision: 12, scale: 2 }).notNull(),
-  active: boolean("active").notNull(),
-  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).$onUpdate(() => new Date().toISOString()),
+  description: text().notNull(),
+  ingredients: text().notNull(),
+  price: numeric({ precision: 12, scale: 2 }).notNull(),
+  active: boolean().notNull(),
+  createdAt: timestamp({ mode: "string" }).notNull().defaultNow(),
+  updatedAt: timestamp({ mode: "string" }).$onUpdate(() => new Date().toISOString()),
 });
 
 export const menuItemRelations = relations(menuItem, ({ one }) => ({

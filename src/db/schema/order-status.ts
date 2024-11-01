@@ -5,14 +5,14 @@ import order from "@/db/schema/order";
 import statusCatalog from "@/db/schema/status-catalog";
 
 const orderStatus = pgTable("order_status", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id")
+  id: serial().primaryKey(),
+  orderId: integer()
     .notNull()
     .references(() => order.id),
-  statusCatalogId: integer("status_catalog_id")
+  statusCatalogId: integer()
     .notNull()
     .references(() => statusCatalog.id),
-  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
+  createdAt: timestamp({ mode: "string" }).notNull().defaultNow(),
 });
 
 export const orderStatusRelations = relations(orderStatus, ({ one }) => ({

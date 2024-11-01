@@ -5,9 +5,13 @@ import env from "@/utils/env";
 
 const isSeeding = !!Bun.env.DB_SEEDING;
 
-const db = drizzle(!isSeeding ? env.DATABASE_URL_POOL! : env.DATABASE_URL, {
-  logger: isSeeding,
+const db = drizzle({
+  connection: {
+    connectionString: isSeeding ? env.DATABASE_URL : env.DATABASE_URL_POOL!,
+  },
   schema,
+  casing: "snake_case",
+  logger: true,
 });
 
 export type DbType = typeof db;

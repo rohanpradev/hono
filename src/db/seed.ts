@@ -50,3 +50,5 @@ async function seedDatabases() {
 console.time("SEEDING");
 seedDatabases();
 console.time("SEEDING");
+
+process.exit(0);
