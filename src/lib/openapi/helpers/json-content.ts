@@ -1,16 +1,7 @@
-import type { ZodSchema } from "@/lib/openapi/helpers/types";
+import type { ZodType } from "zod/v4";
 
-function jsonContent<
-  T extends ZodSchema,
->(schema: T, description: string) {
-  return {
-    content: {
-      "application/json": {
-        schema,
-      },
-    },
-    description,
-  };
-}
+import { toJSONSchema } from "zod/v4";
+
+const jsonContent = <T extends ZodType>(schema: T) => toJSONSchema(schema);
 
 export default jsonContent;

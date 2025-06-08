@@ -1,22 +1,23 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
   PORT: z.coerce.number().default(9999),
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
-  DATABASE_URL_POOL: z.string().url().optional(),
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL_POOL: z.url().optional(),
+  DATABASE_URL: z.url(),
+  AUTH_COOKIE_NAME: z.string().optional().default("token"),
+  JWT_SECRET: z.string({ error: "JWT secret is required for authentication" }),
 });
 
-export type env = z.infer<typeof EnvSchema>;
+export type Env = NonNullable<z.infer<typeof EnvSchema>>;
 
-// eslint-disable-next-line ts/no-redeclare
 const { data: env, error } = EnvSchema.safeParse(Bun.env);
 
 if (error) {
   console.error("❌ Invalid env:");
-  console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));
+  console.error(z.prettifyError(error));
   process.exit(1);
 }
 
-export default env!;
+export default env as Env;

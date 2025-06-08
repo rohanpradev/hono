@@ -20,7 +20,7 @@ const user = pgTable("users", {
   confirmationCode: varchar({ length: 255 }),
   password: varchar({ length: 255 }).notNull(),
   createdAt: timestamp({ mode: "string" }).notNull().defaultNow(),
-  updatedAt: timestamp({ mode: "string" }).notNull().defaultNow(),
+  updatedAt: timestamp({ mode: "string" }).$onUpdate(() => new Date().toISOString()),
 });
 
 export const userRelations = relations(user, ({ many }) => ({

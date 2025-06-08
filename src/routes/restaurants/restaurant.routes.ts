@@ -18,7 +18,7 @@ export const get = createRoute({
     query: paginationQuerySchema,
   },
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(GetRestaurantWithCityAndState), "Restautant details list"),
+    [HttpStatusCodes.OK]: jsonContent(z.array(GetRestaurantWithCityAndState)),
   },
 });
 

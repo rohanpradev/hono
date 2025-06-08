@@ -15,12 +15,11 @@ const onError: ErrorHandler = (err, c) => {
   return c.json(
     {
       message: err.message,
-
       stack: env === "production"
         ? undefined
         : err.stack,
     },
-    statusCode,
+    statusCode as any,
   );
 };
 

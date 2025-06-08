@@ -1,5 +1,4 @@
-import { logger } from "hono-pino";
-import crypto from "node:crypto";
+import { pinoLogger as logger } from "hono-pino";
 import pino from "pino";
 import pretty from "pino-pretty";
 
@@ -11,7 +10,7 @@ export function pinoLogger() {
       level: env.LOG_LEVEL,
     }, env.NODE_ENV === "production" ? undefined : pretty()),
     http: {
-      reqId: () => crypto.randomUUID(),
+      reqId: Bun.randomUUIDv7,
     },
   });
 }
