@@ -1,8 +1,6 @@
-import { createRoute } from "@hono/zod-openapi";
+import { createRoute, z } from "@hono/zod-openapi";
 
 import { createRouter } from "@/lib/create-app";
-import jsonContent from "@/lib/openapi/helpers/json-content";
-import createMessageObjectSchema from "@/lib/openapi/schemas/create-message-object";
 import * as HttpStatusCodes from "@/utils/http-status-codes";
 
 const tags = ["Index"];
@@ -12,10 +10,19 @@ const router = createRouter().openapi(createRoute({
   path: "/",
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      createMessageObjectSchema("Index route"),
-      "API Index",
-    ),
+    [HttpStatusCodes.OK]: {
+      description: "Index route",
+      content: {
+        "application/json": {
+          schema: z.object({
+            message: z.string().openapi({
+              description: "Welcome message",
+              example: "Welcome to the API!",
+            }),
+          }),
+        },
+      },
+    },
   },
 
 }), c => c.json({ message: "Index route" }, HttpStatusCodes.OK));
