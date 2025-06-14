@@ -9,15 +9,15 @@ import { pinoLogger } from "@/middlewares/pino-logger";
 import defaultHook from "@/utils/default-hook";
 
 export function createRouter() {
-  return new OpenAPIHono<AppBindings>({ strict: false, defaultHook });
+	return new OpenAPIHono<AppBindings>({ strict: false, defaultHook });
 }
 
 export function createApp() {
-  const app = createRouter();
-  app.use(pinoLogger());
-  app.use(serveEmojiFavicon("🔥"));
+	const app = createRouter();
+	app.use(pinoLogger());
+	app.use(serveEmojiFavicon("🔥"));
 
-  app.notFound(notFound);
-  app.onError(onError);
-  return app;
+	app.notFound(notFound);
+	app.onError(onError);
+	return app;
 }

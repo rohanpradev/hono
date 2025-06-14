@@ -4,23 +4,21 @@ import type { StatusCode } from "hono/utils/http-status";
 import { INTERNAL_SERVER_ERROR, OK } from "@/utils/http-status-codes";
 
 const onError: ErrorHandler = (err, c) => {
-  const currentStatus = "status" in err
-    ? err.status
-    : c.newResponse(null).status;
-  const statusCode = currentStatus !== OK
-    ? (currentStatus as StatusCode)
-    : INTERNAL_SERVER_ERROR;
+	const currentStatus =
+		"status" in err ? err.status : c.newResponse(null).status;
+	const statusCode =
+		currentStatus !== OK
+			? (currentStatus as StatusCode)
+			: INTERNAL_SERVER_ERROR;
 
-  const env = c.env?.NODE_ENV || Bun.env?.NODE_ENV;
-  return c.json(
-    {
-      message: err.message,
-      stack: env === "production"
-        ? undefined
-        : err.stack,
-    },
-    statusCode as any,
-  );
+	const env = c.env?.NODE_ENV || Bun.env?.NODE_ENV;
+	return c.json(
+		{
+			message: err.message,
+			stack: env === "production" ? undefined : err.stack,
+		},
+		statusCode as any,
+	);
 };
 
 export default onError;

@@ -5,26 +5,28 @@ import * as HttpStatusCodes from "@/utils/http-status-codes";
 
 const tags = ["Index"];
 
-const router = createRouter().openapi(createRoute({
-  method: "get",
-  path: "/",
-  tags,
-  responses: {
-    [HttpStatusCodes.OK]: {
-      description: "Index route",
-      content: {
-        "application/json": {
-          schema: z.object({
-            message: z.string().openapi({
-              description: "Welcome message",
-              example: "Welcome to the API!",
-            }),
-          }),
-        },
-      },
-    },
-  },
-
-}), c => c.json({ message: "Index route" }, HttpStatusCodes.OK));
+const router = createRouter().openapi(
+	createRoute({
+		method: "get",
+		path: "/",
+		tags,
+		responses: {
+			[HttpStatusCodes.OK]: {
+				description: "Index route",
+				content: {
+					"application/json": {
+						schema: z.object({
+							message: z.string().openapi({
+								description: "Welcome message",
+								example: "Welcome to the API!",
+							}),
+						}),
+					},
+				},
+			},
+		},
+	}),
+	(c) => c.json({ message: "Index route" }, HttpStatusCodes.OK),
+);
 
 export default router;
