@@ -12,7 +12,6 @@ const EnvSchema = z.object({
 		"trace",
 		"silent",
 	]),
-	DATABASE_URL_POOL: z.url().optional(),
 	DATABASE_URL: z.url(),
 	AUTH_COOKIE_NAME: z.string().optional().default("token"),
 	JWT_SECRET: z.string({ error: "JWT secret is required for authentication" }),

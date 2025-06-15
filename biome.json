@@ -27,7 +27,7 @@
 				},
 				"useFilenamingConvention": "warn",
 				"noNonNullAssertion": "warn",
-				"useBlockStatements": "warn",
+				"useBlockStatements": "off",
 				"noParameterAssign": "error",
 				"useAsConstAssertion": "error",
 				"useDefaultParameterLast": "error",
@@ -42,12 +42,7 @@
 	},
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"files": {
-		"includes": [
-			"**",
-			"!**/package.json",
-			"!**/migrations",
-			"!**/drizzle.config.ts"
-		]
+		"includes": ["src/**", "!src/**/migrations/**"]
 	},
 	"javascript": {
 		"jsxRuntime": "reactClassic",

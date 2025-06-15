@@ -2,6 +2,7 @@ import { createRoute } from "@hono/zod-openapi";
 
 import { idParamsSchema } from "@/lib/openapi/schemas/id-schema";
 import { paginationQuerySchema } from "@/lib/openapi/schemas/pagination-schema";
+import { authMiddleware } from "@/middlewares/auth";
 
 // import { GetRestaurantWithCityAndState } from "@/services/restaurant.service";
 // import * as HttpStatusCodes from "@/utils/http-status-codes";
@@ -13,12 +14,14 @@ export const get = createRoute({
 	path: "/restaurants",
 	method: "get",
 	tags,
+	middleware: [authMiddleware],
 	request: {
 		query: paginationQuerySchema,
 	},
 	responses: {
 		// [HttpStatusCodes.OK]: jsonContent(z.array(GetRestaurantWithCityAndState)),
 	},
+	security: [{ CookieAuth: [] }],
 });
 
 export type GetRestaurant = typeof get;
@@ -27,6 +30,7 @@ export const getById = createRoute({
 	path: "/restaurants/{id}",
 	method: "get",
 	tags,
+	middleware: [authMiddleware],
 	request: {
 		params: idParamsSchema("id", "The id of the restaurant"),
 	},
@@ -37,6 +41,7 @@ export const getById = createRoute({
 		//     "No data dound for the requested id",
 		//   ),
 	},
+	security: [{ CookieAuth: [] }],
 });
 
 export type GetRestaurantById = typeof getById;
