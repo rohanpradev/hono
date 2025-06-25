@@ -1,32 +1,22 @@
 FROM oven/bun:latest AS base
 WORKDIR /usr/src/app
 
-# Install dependencies
-FROM base AS Install
+# Install dependencies and build
+FROM base AS build
 # Install curl for health check
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
 COPY package.json ./
-COPY bun.lockb ./
 COPY tsconfig.json ./
 
-# Install dependencies excluding dev dependencies
-RUN bun install --production=true
-
-# Build Stage
-FROM base AS Build
-# Install curl for health check
-RUN apt-get update && apt-get install -y curl
-
-Copy dependencies from Install stage
-COPY --from=Install /usr/src/app/node_modules ./node_modules
+# Install all dependencies (including dev) for build
+RUN bun install --production
 
 # Copy source files
 COPY . .
 
-# Install dev dependencies and build the project
-RUN bun install --production=false
+# Build the project
 RUN bun build:code
 
 # Production image
@@ -35,16 +25,12 @@ WORKDIR /usr/src/app
 
 # Install curl for health check
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-# Copy built files and dependencies from Build stage
-COPY --from=Build /usr/src/app/dist/index.js ./index.js
+
+# Copy built files and production dependencies only
 COPY package.json ./
-COPY .env* ./
-
-Change ownership to a non-root user
-RUN chown -R nobody:nobody /usr/src/app
-
-# Use non root user
-USER nobody
+COPY tsconfig.json ./
+COPY --from=build /usr/src/app/dist/index.js ./index.js
+COPY --from=build /usr/src/app/node_modules ./node_modules
 
 # Expose Port
 EXPOSE 3000
