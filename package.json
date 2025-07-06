@@ -15,9 +15,11 @@
     "db:view": "drizzle-kit studio"
   },
   "dependencies": {
+    "@ai-sdk/azure": "^2.0.0-beta.5",
     "@hono/zod-openapi": "^0.19.8",
     "@neondatabase/serverless": "^1.0.1",
     "@scalar/hono-api-reference": "^0.9.6",
+    "ai": "^5.0.0-beta.7",
     "drizzle-orm": "^0.44.2",
     "drizzle-zod": "^0.8.2",
     "hono": "^4.8.2",

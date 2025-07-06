@@ -15,6 +15,10 @@ const EnvSchema = z.object({
 	DATABASE_URL: z.url(),
 	AUTH_COOKIE_NAME: z.string().optional().default("token"),
 	JWT_SECRET: z.string({ error: "JWT secret is required for authentication" }),
+	// Azure AI related env vars
+	AZURE_API_KEY: z.string(),
+	AZURE_RESOURCE_NAME: z.string(),
+	AZURE_API_VERSION: z.string(),
 });
 
 export type Env = NonNullable<z.infer<typeof EnvSchema>>;
