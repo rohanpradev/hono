@@ -1,6 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
+import { HomePage } from "@/components/homepage";
 import { createRouter } from "@/lib/create-app";
-import HomePage from "@/routes/homepage";
 import * as HttpStatusCodes from "@/utils/http-status-codes";
 
 const tags = ["Index"];

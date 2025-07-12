@@ -6,7 +6,7 @@ import type { AppRoutehandler } from "@/lib/types";
 import type { Login, LogoutUser, Register } from "@/routes/auth/auth.route";
 import env from "@/utils/env";
 import * as HTTPStatusCodes from "@/utils/http-status-codes";
-import { TokenService } from "@/utils/token";
+import { createToken, hashPassword, verifyPassword } from "@/utils/token";
 
 export const registerUser: AppRoutehandler<Register> = async (c) => {
 	const { name, email, password, phone } = c.req.valid("json");
@@ -20,7 +20,7 @@ export const registerUser: AppRoutehandler<Register> = async (c) => {
 			message: "User already exists",
 		});
 
-	const hashedPassword = await TokenService.hashPassword(password);
+	const hashedPassword = await hashPassword(password);
 
 	const [userData] = await db
 		.insert(user)
@@ -34,7 +34,7 @@ export const registerUser: AppRoutehandler<Register> = async (c) => {
 		})
 		.returning({ id: user.id, name: user.name, email: user.email });
 
-	const token = await TokenService.createToken({
+	const token = await createToken({
 		sub: userData,
 		exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
 	});
@@ -64,17 +64,14 @@ export const loginUser: AppRoutehandler<Login> = async (c) => {
 			message: "User does not exist",
 		});
 
-	const isPasswordValid = await TokenService.verifyPassword(
-		password,
-		existingUser.password,
-	);
+	const isPasswordValid = await verifyPassword(password, existingUser.password);
 
 	if (!isPasswordValid)
 		throw new HTTPException(HTTPStatusCodes.UNAUTHORIZED, {
 			message: "Invalid email or password",
 		});
 
-	const token = await TokenService.createToken({
+	const token = await createToken({
 		sub: existingUser.id,
 		exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
 	});

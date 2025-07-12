@@ -3,6 +3,7 @@ import { z } from "zod/v4";
 const EnvSchema = z.object({
 	NODE_ENV: z.string().default("development"),
 	PORT: z.coerce.number().default(9999),
+	BASE_URL_PREFIX: z.string().optional().default("api"),
 	LOG_LEVEL: z.enum([
 		"fatal",
 		"error",

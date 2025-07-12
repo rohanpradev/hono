@@ -19,7 +19,7 @@ export const register = createRoute({
 					schema: z
 						.object({
 							name: z.string().min(1).max(30),
-							email: z.string().email(),
+							email: z.email(),
 							password: z.string().min(6).max(100),
 							phone: z.string().min(10).max(15),
 						})
@@ -48,7 +48,7 @@ export const register = createRoute({
 							.object({
 								id: z.number(),
 								name: z.string().min(1).max(30),
-								email: z.string().email(),
+								email: z.email(),
 							})
 							.openapi({
 								title: "User Data",
@@ -88,7 +88,7 @@ export const login = createRoute({
 				"application/json": {
 					schema: z
 						.object({
-							email: z.string().email(),
+							email: z.email(),
 							password: z.string().min(6).max(100),
 						})
 						.openapi({
@@ -113,7 +113,7 @@ export const login = createRoute({
 							.object({
 								id: z.number(),
 								name: z.string().min(1).max(30),
-								email: z.string().email(),
+								email: z.email(),
 							})
 							.openapi({
 								title: "User Data",

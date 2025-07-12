@@ -19,9 +19,6 @@ COPY . .
 # Build the project
 RUN bun build:code
 
-# Clean up node_modules (optional if not copying from here)
-RUN rm -rf node_modules
-
 # Production image
 FROM oven/bun:latest AS release
 WORKDIR /usr/src/app
@@ -30,8 +27,6 @@ WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy built files and production dependencies only
-COPY package.json ./
-COPY tsconfig.json ./
 COPY --from=build /usr/src/app/dist/index.js ./index.js
 
 # Expose Port

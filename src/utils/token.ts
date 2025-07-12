@@ -2,16 +2,13 @@ import { sign } from "hono/jwt";
 
 import env from "@/utils/env";
 
-export class TokenService {
-	static async createToken(payload: Record<string, any>): Promise<string> {
-		return sign(payload, env.JWT_SECRET);
-	}
+export const createToken = (payload: Record<string, any>): Promise<string> =>
+	sign(payload, env.JWT_SECRET);
 
-	static async hashPassword(pass: string): Promise<string> {
-		return Bun.password.hash(pass);
-	}
+export const hashPassword = (pass: string): Promise<string> =>
+	Bun.password.hash(pass);
 
-	static async verifyPassword(pass: string, hashed: string): Promise<boolean> {
-		return Bun.password.verify(pass, hashed);
-	}
-}
+export const verifyPassword = (
+	pass: string,
+	hashed: string,
+): Promise<boolean> => Bun.password.verify(pass, hashed);
